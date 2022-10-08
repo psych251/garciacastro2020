@@ -1,5 +1,5 @@
 ---
-title: "Replication of Study 2 by García-Castro, Rodríguez-Bailón, & Willis (2020, Journal of Experimental Social Psychology)"
+title: "Replication of Study 3a by García-Castro, Rodríguez-Bailón, & Willis (2020, Journal of Experimental Social Psychology)"
 author: "Cedric Lim Chun Hui (limch@stanford.edu)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -14,13 +14,13 @@ output:
 
 ## Introduction
 
-This paper contributes importantly to the understanding that any behavioral effect of economic inequality is contingent on people's perceptions. In addition, the study tests the novel prediction that perceptions of high inequality will lead to greater support for redistributive policies. Perceptions of economic inequality (high vs. low) are first manipulated, following which measures intolerance of inequality and support for economic redistribution are asked.
+This paper contributes importantly to the understanding that any behavioral effect of economic inequality is contingent on people's perceptions. In addition, the study tests the novel prediction that perceptions of high inequality will lead to greater intolerance for inequality and increased support for redistributive policies. Perceived economic inequality is first manipulated, following which measures intolerance of inequality and support for economic redistribution are asked. There are two hypotheses for this study: (1) participants in the percevied economic inequality condition should show a higher intolerance of inequality than participants in the control condition, and (2) Intolerance of inequality would mediate the relationship between perceived economic inequality and support for economic redistribution.
 
-This replication will take the form of a questionnaire. Both the manipulation and outcome measures are administered in the form of open-ended and multiple-choice questions. It is expected to take no more than 10 minutes to complete. Qualtrics will be the platform of choice and the study will be conducted on Prolific. Challenges include an unfamiliarity with using Prolific as a data collection platform, and whether we can avoid or filter out potential bots to ensure a real participant sample. Attention checks will be used to verify this as well.
+This replication will take the form of a questionnaire. Both the manipulation and outcome measures are administered in the form of open-ended and multiple-choice questions. It is expected to take no more than 10 minutes to complete. Qualtrics will be the platform of choice and the study will be conducted on Prolific. Challenges include an unfamiliarity with using Prolific as a data collection platform, and whether we can avoid or filter out potential bots to ensure a real participant sample. Attention checks will be used to verify this as well. Another expected challenge will involve sourcing out the exact materials used in the original study as the article only provides broad details on some measures. It may be possible to obtain the exact materials from any form of supplemental materials, the preregistration document, or by contacting the authors directly.
 
-[Link to Repository](https://github.com/psych251/burgoyne2020)
+[Link to Repository](https://github.com/psych251/garciacastro2020)
 
-[Link to Original Paper](https://github.com/psych251/burgoyne2020/blob/main/original_paper/Burgoyne%20et%20al.%202020.pdf)
+[Link to Original Paper](https://github.com/psych251/garciacastro2020/blob/main/original_paper/Garc%C3%ADa-Castro%20et%20al.%202020.pdf)
 
 ## Methods
 
@@ -34,29 +34,33 @@ Participants are expected to take approximately 10 minutes to complete the study
 
 ### Materials
 
-Growth mindsets of intelligence - Dweck's (2000) Implicit Theories of Intelligence Quesionnaire will be used. Participants will respond to four items using a 6-point Likert scale.
+**Thought Manipulation** - To manipulate perceived economic inequality, participants will be asked to think about the wealthiest and the least wealthy persons they know. Then, they are asked to write a paragraph about how economic resources influence the lives of the people they considered. In the control condition, participants are instead asked to think about the tallest and shortest persons they knew and how height influences their lives. 
 
-Achievement goal orientation - Elliot and Murayama's (2008) Achievement Goal Questionnaire will be used. Participants will respond to 12 items on a 5-point Likert scale.
+*Experimental condition*: Please describe the person you know personally who has the most economic resources and the person you know personally who has the least economic resources. Think about what they can do and what not with the resources they have. Tell us how the economic resources influence their lives by writing at least one paragraph for each of these two people. 
 
-Belief in talent versus effort - Participants will respond to three items on a 5-point Likert scale - (1) belief in talent alone: "Talent alone - without effort - creates success"; (2) belief in talent and effort: "Both talent and effort are needed for success"; (3) belief in effort alone: "Effort alone - without talent - creates success."
+*Control condition*: Please describe the person of the smallest height you know personally and the tallest person you know personally. Think about what they can do and what not with their height. Tell us how their height influence their lives by writing at least one paragraph for each of these two people.  
 
-Response to challenge - Participants were asked to think about a current important and challenging goal in their life. They rated how important this goal was to them, how challenging this goal was, and how confident they were in their ability to achieve it. Next, they will respond to four items on a 5-point Likert scale - (1) "I am working hard to accomplish this goal and overcome this challenge"; (2) "When this goal or challenge has proven difficult, I have worked harder to accomplish it"; (3) "When this goal or challenge has proven difficult, I have taken a break from working toward this goal" (reverse-scored); (4) "If confronted with potential failure, I will stop trying to accomplish this goal" (reverse scored).
+**Manipulation Check** - A single-item measure, "For the two people you have just thought about, how different do you think they are in terms of wealth?" Response options will range from *1 (not at all different) to 5 (extremely different)*. The higher the score, the greater the difference.
+
+**Intolerance of Inequality** - A single item measure, "To what extent do you agree that the income differences in the U.S. are too large?" will be used (Gonthier, 2017; Larsen, 2016; Schröder, 2017). Response options range from *1 (totally disagree) to 7 (totally agree)*. The higher the score, the less tolerance to inequality.
+
+**Support for Economic Redistribution** - Participants will respond to three items, (1) "The Government has the responsibility to reduce the income differences between those who have high incomes and those who have low incomes", (2) "The government should provide a decent standard of living for the unemployed", and (3) "The government should spend less on benefits for the poor" (ISSP, 2017). Response options range from *1 (completely disagree) to 7 (completely agree)*. The higher the score, the greater the support for redistributive policies.
 
 ### Procedure	
 
-"Participants completed the questionnaires in the following order: growth mindsets of intelligence, goal orientation, response to challenge, and belief in talent versus effort." (followed precisely)
+Participants will be randomly assigned to one of the two thought manipulation conditions, following which they will complete the manipulation check and the measures of intolerance of inequality and support for redistribution.
 
 ### Analysis Plan
 
 Participants who fail an included attention check will be excluded from the analysis.
 
-A series of regressions will be performed to examine growth mindsets association with relevant constructs. The study did not appear to control for typical demographic variables, which is extremely odd for an observational study. In my analysis, all regressions will control for age, gender, and subjective socioeconomic status.
+Hypothesis (1): An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
+
+Hypothesis (2): A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies. 
 
 ### Differences from Original Study
 
-One minor difference is the use of four items for the growth mindsets of intelligence scale which according to Dweck (2000), is more than sufficient. In addition, I sought to follow Dweck's original scale, which was on a 6-point Likert scale. The authors likely deviated from this to maintain some form of consistency across the scales. 
-
-Another difference is an updated goal orientation questionnaire, which is shorter, more parsimonious, and revised by the same author.
+Unlike the original study which sampled from Spanish university students, participants for this replication effort will be recruited through the Prolific platform. 
 
 ### Methods Addendum (Post Data Collection)
 
