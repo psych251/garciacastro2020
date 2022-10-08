@@ -1,0 +1,109 @@
+---
+title: "Replication of Study 2 by García-Castro, Rodríguez-Bailón, & Willis (2020, Journal of Experimental Social Psychology)"
+author: "Cedric Lim Chun Hui (limch@stanford.edu)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+---
+
+<!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
+
+## Introduction
+
+This paper contributes importantly to the understanding that any behavioral effect of economic inequality is contingent on people's perceptions. In addition, the study tests the novel prediction that perceptions of high inequality will lead to greater support for redistributive policies. Perceptions of economic inequality (high vs. low) are first manipulated, following which measures intolerance of inequality and support for economic redistribution are asked.
+
+This replication will take the form of a questionnaire. Both the manipulation and outcome measures are administered in the form of open-ended and multiple-choice questions. It is expected to take no more than 10 minutes to complete. Qualtrics will be the platform of choice and the study will be conducted on Prolific. Challenges include an unfamiliarity with using Prolific as a data collection platform, and whether we can avoid or filter out potential bots to ensure a real participant sample. Attention checks will be used to verify this as well.
+
+[Link to Repository](https://github.com/psych251/burgoyne2020)
+
+[Link to Original Paper](https://github.com/psych251/burgoyne2020/blob/main/original_paper/Burgoyne%20et%20al.%202020.pdf)
+
+## Methods
+
+### Power Analysis
+
+An average effect size of *d*=0.32 was found across the studies (2,3a,3b) using the thought manipulation. G*Power suggests that a sample size of 244 is required to achieve 80% power to detect this effect size. However, due to financial limitations, we aim to collect data from at least 41 participants.
+
+### Planned Sample
+
+Participants are expected to take approximately 10 minutes to complete the study, to which they will be reimbursed \$1.20 (based on the average U.S. minimum wage). With a minimum funding of \$50, it guarantees a sample of at least 41 participants. The only inclusion criteria is that all participants must be from the U.S.
+
+### Materials
+
+Growth mindsets of intelligence - Dweck's (2000) Implicit Theories of Intelligence Quesionnaire will be used. Participants will respond to four items using a 6-point Likert scale.
+
+Achievement goal orientation - Elliot and Murayama's (2008) Achievement Goal Questionnaire will be used. Participants will respond to 12 items on a 5-point Likert scale.
+
+Belief in talent versus effort - Participants will respond to three items on a 5-point Likert scale - (1) belief in talent alone: "Talent alone - without effort - creates success"; (2) belief in talent and effort: "Both talent and effort are needed for success"; (3) belief in effort alone: "Effort alone - without talent - creates success."
+
+Response to challenge - Participants were asked to think about a current important and challenging goal in their life. They rated how important this goal was to them, how challenging this goal was, and how confident they were in their ability to achieve it. Next, they will respond to four items on a 5-point Likert scale - (1) "I am working hard to accomplish this goal and overcome this challenge"; (2) "When this goal or challenge has proven difficult, I have worked harder to accomplish it"; (3) "When this goal or challenge has proven difficult, I have taken a break from working toward this goal" (reverse-scored); (4) "If confronted with potential failure, I will stop trying to accomplish this goal" (reverse scored).
+
+### Procedure	
+
+"Participants completed the questionnaires in the following order: growth mindsets of intelligence, goal orientation, response to challenge, and belief in talent versus effort." (followed precisely)
+
+### Analysis Plan
+
+Participants who fail an included attention check will be excluded from the analysis.
+
+A series of regressions will be performed to examine growth mindsets association with relevant constructs. The study did not appear to control for typical demographic variables, which is extremely odd for an observational study. In my analysis, all regressions will control for age, gender, and subjective socioeconomic status.
+
+### Differences from Original Study
+
+One minor difference is the use of four items for the growth mindsets of intelligence scale which according to Dweck (2000), is more than sufficient. In addition, I sought to follow Dweck's original scale, which was on a 6-point Likert scale. The authors likely deviated from this to maintain some form of consistency across the scales. 
+
+Another difference is an updated goal orientation questionnaire, which is shorter, more parsimonious, and revised by the same author.
+
+### Methods Addendum (Post Data Collection)
+
+You can comment this section out prior to final report with data collection.
+
+#### Actual Sample
+  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+
+#### Differences from pre-data collection methods plan
+  Any differences from what was described as the original plan, or “none”.
+
+
+##Results
+
+
+### Data preparation
+
+Data preparation following the analysis plan.
+	
+```{r include=F}
+###Data Preparation
+
+####Load Relevant Libraries and Functions
+
+####Import data
+
+#### Data exclusion / filtering
+
+#### Prepare data for analysis - create columns etc.
+```
+
+### Confirmatory analysis
+
+The analyses as specified in the analysis plan.  
+
+*Side-by-side graph with original graph is ideal here*
+
+###Exploratory analyses
+
+Any follow-up analyses desired (not required).  
+
+## Discussion
+
+### Summary of Replication Attempt
+
+Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+
+### Commentary
+
+Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
