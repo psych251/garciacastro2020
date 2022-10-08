@@ -44,7 +44,7 @@ Participants are expected to take approximately 10 minutes to complete the study
 
 **Intolerance of Inequality** - A single item measure, "To what extent do you agree that the income differences in the U.S. are too large?" will be used (Gonthier, 2017; Larsen, 2016; Schröder, 2017). Response options range from *1 (totally disagree) to 7 (totally agree)*. The higher the score, the less tolerance to inequality.
 
-**Support for Economic Redistribution** - Participants will respond to three items, (1) "The Government has the responsibility to reduce the income differences between those who have high incomes and those who have low incomes", (2) "The government should provide a decent standard of living for the unemployed", and (3) "The government should spend less on benefits for the poor" (ISSP, 2017). Response options range from *1 (completely disagree) to 7 (completely agree)*. The higher the score, the greater the support for redistributive policies.
+**Support for Economic Redistribution** - Participants will respond to three items, (1) "The government has the responsibility to reduce the income differences between those who have high incomes and those who have low incomes", (2) "The government should provide a decent standard of living for the unemployed", and (3) "The government should spend less on benefits for the poor" (ISSP, 2017). Response options range from *1 (completely disagree) to 7 (completely agree)*. The higher the score, the greater the support for redistributive policies.
 
 ### Procedure	
 
