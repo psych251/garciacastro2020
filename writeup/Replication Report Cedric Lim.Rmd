@@ -22,6 +22,8 @@ This replication will take the form of a questionnaire. Both the manipulation an
 
 [Link to Original Paper](https://github.com/psych251/garciacastro2020/blob/main/original_paper/Garc%C3%ADa-Castro%20et%20al.%202020.pdf)
 
+[Link to Study Materials (Qualtrics)](https://nusbiz.az1.qualtrics.com/jfe/form/SV_eKcjCAiSqSNrZSS)
+
 ## Methods
 
 ### Power Analysis
@@ -73,12 +75,12 @@ You can comment this section out prior to final report with data collection.
   Any differences from what was described as the original plan, or “none”.
 
 
-##Results
+## Results
 
 
 ### Data preparation
 
-Data preparation following the analysis plan.
+Participants who failed the attention check will be filtered from the final analysis. A mean will be computed for the 3-item measure of support for economic redistribution. 
 	
 ```{r include=F}
 ###Data Preparation
@@ -94,11 +96,13 @@ Data preparation following the analysis plan.
 
 ### Confirmatory analysis
 
-The analyses as specified in the analysis plan.  
+Hypothesis (1): An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
+
+Hypothesis (2): A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies.  
 
 *Side-by-side graph with original graph is ideal here*
 
-###Exploratory analyses
+### Exploratory analyses
 
 Any follow-up analyses desired (not required).  
 
