@@ -48,17 +48,19 @@ Participants are expected to take approximately 10 minutes to complete the study
 
 **Support for Economic Redistribution** - Participants will respond to three items, (1) "The government has the responsibility to reduce the income differences between those who have high incomes and those who have low incomes", (2) "The government should provide a decent standard of living for the unemployed", and (3) "The government should spend less on benefits for the poor" (ISSP, 2017). Response options range from *1 (completely disagree) to 7 (completely agree)*. The higher the score, the greater the support for redistributive policies.
 
+**Demographic Variables** - Participants will be asked to indicate their age, gender, nationality, state, subjective socioeconomic status, annual household income, highest educational qualification, and political orientation.
+
 ### Procedure	
 
 Participants will be randomly assigned to one of the two thought manipulation conditions, following which they will complete the manipulation check and the measures of intolerance of inequality and support for redistribution.
 
 ### Analysis Plan
 
-Participants who fail an included attention check will be excluded from the analysis.
+Participants who spend less than a minute or write fewer than 250 characters on the thought manipulation will be excluded from the analysis.
 
-Hypothesis (1): An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
+Key Hypothesis: An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
 
-Hypothesis (2): A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies. 
+Secondary Hypothesis: A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies. 
 
 ### Differences from Original Study
 
@@ -80,26 +82,60 @@ You can comment this section out prior to final report with data collection.
 
 ### Data preparation
 
-Participants who failed the attention check will be filtered from the final analysis. A mean will be computed for the 3-item measure of support for economic redistribution. 
+Participants who spend less than a minute or write fewer than 250 characters on the thought manipulation will be excluded from the analysis. A mean will be computed for the 3-item measure of support for economic redistribution. 
 	
-```{r include=F}
-###Data Preparation
-
-####Load Relevant Libraries and Functions
-
-####Import data
-
-#### Data exclusion / filtering
-
-#### Prepare data for analysis - create columns etc.
+```{r}
+repstudytest <- read.csv("repstudytest.csv", header=TRUE)
+setwd("C:/Users/chunh/Desktop/psych251/proassign/garciacastro2020/writeup")
+if(!require(mediation)){
+    install.packages("mediation")
+    library(mediation)
+}
+if(!require(tidyverse)){
+    install.packages("tidyverse")
+    library(tidyverse)
+}
+if(!require(car)){
+    install.packages("car")
+    library(car)
+}
+library(mediation)
+library(tidyverse)
+library(car)
 ```
 
+```{r}
+# Reverse-code negatively worded items and create a composite mean of support for economic redistribution.
+repstudytest = repstudytest %>% 
+  mutate(EcoRed3R = 8-EcoRed3R) %>%
+  mutate(EcoRedM = (EcoRed1+EcoRed2+EcoRed3R/3))
+```
 ### Confirmatory analysis
 
-Hypothesis (1): An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
+Key Hypothesis: An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check and the measure of intolerance of inequality. 
 
-Hypothesis (2): A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies.  
+```{r}
+# Manipulation Check
+t.test(ManiChk ~ Condition, var.equal=TRUE, data = repstudytest)
 
+# Intolerance of Inequality
+t.test(Intol ~ Condition, var.equal=TRUE, data = repstudytest)
+```
+
+Secondary Hypothesis: A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies.  
+
+```{r}
+med.fit <- lm(Intol ~ ConditionNum, data = repstudytest)
+out.fit <- lm(EcoRedM ~ ConditionNum + Intol, data = repstudytest)
+summary(med.fit)
+summary(out.fit)
+```
+
+```{r}
+med.out <- mediate(med.fit, out.fit, treat = "ConditionNum", mediator = "Intol", 
+                   robustSE = F, sims = 100)
+summary(med.out)
+```
 *Side-by-side graph with original graph is ideal here*
 
 ### Exploratory analyses
