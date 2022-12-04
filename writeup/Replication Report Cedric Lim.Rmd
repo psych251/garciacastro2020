@@ -24,6 +24,8 @@ This replication will take the form of a questionnaire. Both the manipulation an
 
 [Link to Study Materials (Qualtrics)](https://nusbiz.az1.qualtrics.com/jfe/form/SV_eKcjCAiSqSNrZSS)
 
+[Link to Preregistration](https://osf.io/wya3z)
+
 ## Methods
 
 ### Power Analysis
@@ -42,7 +44,7 @@ Participants are expected to take approximately 10 minutes to complete the study
 
 *Control condition*: Please describe the person of the smallest height you know personally and the tallest person you know personally. Think about what they can do and what not with their height. Tell us how their height influence their lives by writing at least one paragraph for each of these two people.  
 
-**Manipulation Check** - A single-item measure, "For the two people you have just thought about, how different do you think they are in terms of wealth?" Response options will range from *1 (not at all different) to 5 (extremely different)*. The higher the score, the greater the difference.
+**Manipulation Check** - A single-item measure, "For the two people you have just thought about, how different do you think they are in terms of wealth?" Response options will range from *1 (not at all different) to 5 (extremely different)*. The higher the score, the greater the perceived economic inequality.
 
 **Intolerance of Inequality** - A single item measure, "To what extent do you agree that the income differences in the U.S. are too large?" will be used (Gonthier, 2017; Larsen, 2016; Schröder, 2017). Response options range from *1 (totally disagree) to 7 (totally agree)*. The higher the score, the less tolerance to inequality.
 
@@ -71,25 +73,30 @@ Unlike the original study which sampled from Spanish university students, partic
 You can comment this section out prior to final report with data collection.
 
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
+A total of 140 participants (*M*~age~ = 38, 54 males, 60 females, 4 others) were recruited from the Prolific platform for this study. Twenty-two participants were excluded from the sample for writing fewer than 250 characters on the thought manipulation, leaving a final sample of 118 participants that were included in the analysis.
 
 #### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
-
+None.
 
 ## Results (Pilot A)
 
 ### Data preparation
 
 Participants who spend less than a minute or write fewer than 250 characters on the thought manipulation will be excluded from the analysis. A mean will be computed for the 3-item measure of support for economic redistribution. 
-	
+
 ```{r}
-repstudytest <- read.csv("repstudytest.csv", header=TRUE)
+# Change scientific notation
+options(scipen = 999)
+```
+
+```{r echo=T, warning=F, message=F}
+# Loading libraries and reading data
 library(mediation)
 library(tidyverse)
 library(car)
 library(ggplot2)
 library(effects)
+repstudytest <- read.csv("repstudytest.csv", header=TRUE)
 ```
 
 ```{r}
@@ -127,7 +134,6 @@ med.out <- mediate(med.fit, out.fit, treat = "ConditionNum", mediator = "Intol",
                    robustSE = F, sims = 100)
 summary(med.out)
 ```
-*Side-by-side graph with original graph is ideal here*
 
 ## Results (Pilot B)
 
@@ -180,16 +186,209 @@ med.out <- mediate(med.fit, out.fit, treat = "ConditionNum", mediator = "Intol",
 summary(med.out)
 ```
 
+## Final Results (Data after exclusions, *N*=118)
+
+### Data preparation
+
+Participants who spend less than a minute or write fewer than 250 characters on the thought manipulation will be excluded from the analysis. A mean will be computed for the 3-item measure of support for economic redistribution. 
+	
+```{r}
+# Loading libraries and reading the data
+library(mediation)
+library(tidyverse)
+library(car)
+library(ggplot2)
+library(effects)
+library(jtools) # Gives theme_apa
+fulldata <- read.csv("fulldata.csv", header=TRUE, na.strings=c(""))
+```
+
+```{r}
+# Tidying the dataset
+fulldata <- fulldata %>% 
+  mutate(subjID = row_number()) %>% 
+  filter(subjID != 1) %>% 
+  mutate(ConditionNum = ifelse(is.na(Q262), -1, 1)) %>% 
+  mutate(Condition = ifelse(is.na(Q262), "Control", "Experimental")) %>% 
+  unite('Reflect1', c(Q262,Q265), remove=FALSE, na.rm=T) %>% 
+  unite('Reflect2', c(Q264,Q266), remove=FALSE, na.rm=T) %>% 
+  rename(Intol = Q251,
+         EcoRed1 = Q252,
+         EcoRed2 = Q253,
+         EcoRed3R = Q254,
+         AttChk = Q271,
+         PolOri = Q134,
+         subjSES = Q196_1,
+         age = Q106,
+         gender = Q108,
+         citizen = Q268,
+         state = Q121,
+         objSES = Q359,
+         education = Q358,
+         ManiChk = Q250)
+```
+
+```{r}
+# Excluding participants based on <250 characters written exclusion criteria
+fulldata <- fulldata %>% 
+  mutate(numchars1 = nchar(Reflect1),
+         numchars2 = nchar(Reflect2),
+         totalchars = numchars1 + numchars2) %>% 
+  filter(totalchars > 249)
+```
+
+```{r}
+# Reverse-code negatively worded items and create a composite mean of support for economic redistribution.
+fulldata = fulldata %>% 
+  mutate(EcoRed3R = 8-EcoRed3R) %>%
+  mutate(EcoRedM = (EcoRed1+EcoRed2+EcoRed3R/3))
+```
+### Confirmatory analysis
+
+Key Hypothesis: An independent samples t-test will be conducted to see if there are significant differences between the two conditions on the manipulation check (replicated) and the measure of intolerance of inequality (failed to replicate).
+
+```{r}
+# Manipulation check
+t.test(ManiChk ~ Condition, var.equal=TRUE, data = fulldata)
+
+# Intolerance of inequality
+t.test(Intol ~ Condition, var.equal=TRUE, data = fulldata)
+
+# Preparing the values for plotting confidence intervals bars
+fulldata_summary <- fulldata %>%
+  group_by(Condition) %>%
+  summarise(n = n(),
+            mean_intol = mean(Intol),
+            ci_intol   = 1.96 * sd(Intol) / sqrt(n),
+            mean_manichk = mean(ManiChk),
+            ci_manichk = 1.96 * sd(ManiChk) / sqrt(n)) 
+
+# Plotting results for the manipulation check
+ggplot(fulldata_summary, aes(x=Condition, y=mean_manichk, ymin=mean_manichk-ci_manichk, ymax=mean_manichk+ci_manichk, fill=Condition)) +
+  geom_bar(stat="identity", width=.3, show.legend = F) +
+  coord_cartesian(ylim=c(1,7)) +
+  geom_errorbar(width=.1) +
+  scale_y_continuous(breaks = seq(0,7,by=1), limits=c(0,7)) +
+  ylab("Manipulation Check") +
+  theme_classic()
+
+# Plotting results for intolerance to inequality
+ggplot(fulldata_summary, aes(x=Condition, y=mean_intol, ymin=mean_intol-ci_intol, ymax=mean_intol+ci_intol, fill=Condition)) +
+  geom_bar(stat="identity", width=.3, show.legend = F) +
+  coord_cartesian(ylim=c(1,7)) +
+  geom_errorbar(width=.1) +
+  scale_y_continuous(breaks = seq(0,7,by=1), limits=c(0,7)) +
+  ylab("Intolerance to Inequality") +
+  theme_classic()
+```
+
+```{r echo=F, include=F}
+# Generate graph from original study (Manipulation Check ~ Condition)
+df2 <- data.frame(mean=c(2.99,5.83),
+                 ci=c(0.21,0.21),
+                 Condition=c("Control","Experimental"))
+
+ggplot(df2, aes(x=Condition, y=mean, fill=Condition, ymin=mean-ci, ymax=mean+ci)) +
+  geom_bar(stat="identity", width=.3, show.legend = F) +
+  coord_cartesian(ylim=c(1,7)) +
+  scale_y_continuous(breaks = seq(0,7,by=1), limits=c(0,7)) +
+  ylab("Manipulation Check") +
+  geom_errorbar(width=.1) +
+  theme_classic()
+
+# Generate graph from original study (Intolerance to Inequality ~ Condition)
+df <- data.frame(mean=c(5.18,5.50),
+                 ci=c(0.18,0.18),
+                 Condition=c("Control","Experimental"))
+
+ggplot(df, aes(x=Condition, y=mean, fill=Condition, ymin=mean-ci, ymax=mean+ci)) +
+  geom_bar(stat="identity", width=.3, show.legend = F) +
+  coord_cartesian(ylim=c(1,7)) +
+  scale_y_continuous(breaks = seq(0,7,by=1), limits=c(0,7)) +
+  ylab("Intolerance to Inequality") +
+  geom_errorbar(width=.1) +
+  theme_classic()
+```
+
+```{r}
+# Side-by-side graph comparison of main result between original and replication
+df3 <- data.frame(mean=c(5.18,5.50,5.625,5.790),
+                 ci=c(0.18,0.18,0.434,0.398),
+                 Study=c("Original","Original","Replication","Replication"),
+                 Condition=c("Control","Experimental","Control","Experimental"))
+
+ggplot(df3, aes(x=Study, y=mean, fill=Condition, ymin=mean-ci, ymax=mean+ci)) +
+  geom_bar(stat="identity", position=position_dodge(),width=.5) +
+  coord_cartesian(ylim=c(4,7)) +
+  scale_y_continuous(breaks = seq(0,7,by=1), limits=c(0,7)) +
+  ylab("Intolerance to Inequality") +
+  geom_errorbar(position=position_dodge(.5),width=.1) +
+  theme_classic()
+```
+
+Secondary Hypothesis: A mediation analysis will be conducted to see if intolerance of inequality mediates the relationship between perceived economic inequality and support for redistributive policies. (Failed to replicate)
+
+```{r}
+# Testing mediation (Unstandardized coefficients)
+med.fit <- lm(Intol ~ ConditionNum, data = fulldata)
+out.fit <- lm(EcoRedM ~ ConditionNum + Intol, data = fulldata)
+summary(med.fit)
+summary(out.fit)
+
+# Standardizing variables
+fulldata_s <- fulldata %>% 
+  mutate(Intol_s = scale(Intol),
+         EcoRedM_s = scale(EcoRedM),
+         ManiChk_s = scale(ManiChk))
+
+# Testing mediation (Standardized coefficients)
+med.fit_s <- lm(Intol_s ~ ConditionNum, data = fulldata_s)
+out.fit_s <- lm(EcoRedM_s ~ ConditionNum + Intol_s, data = fulldata_s)
+summary(med.fit_s)
+summary(out.fit_s)
+```
+
+```{r}
+# Testing indirect effect
+med.out <- mediate(med.fit, out.fit, treat = "ConditionNum", mediator = "Intol", 
+                   robustSE = F, sims = 100)
+summary(med.out)
+```
+
+```{r}
+# Mediation Diagram (Standardized coefficients)
+library(diagram)
+
+data <- c(0, "'.05'", 0,
+          0, 0, 0, 
+          "'.76***'", "'-.06 (-.10)'", 0)
+M <- matrix (nrow=3, ncol=3, byrow = TRUE, data=data)
+plot <- plotmat (M, pos=c(1,2), shadow.size = 0,
+                name= c( "Intolerance to \nInequality","Condition", "Support for \nEconomic Redistribution"), 
+                box.type = "rect", box.size = 0.16, box.prop=0.3,  curve=0)
+```
+
 ### Exploratory analyses
 
-Any follow-up analyses desired (not required).  
+```{r}
+# Does the manipulation check predict intolerance to inequality?
+summary(lm(Intol_s ~ ManiChk_s, data=fulldata_s))
+
+# Does SES moderate the relationship between condition and intolerance to inequality?
+summary(lm(Intol ~ Condition*objSES, data=fulldata))
+```
 
 ## Discussion
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+The original effect failed to replicate. 
+
+There was no significant difference in intolerance to inequality between participants in the economic inequality (*M* = 5.79, 95% CI [5.39,6.19]) and height inequality condition (*M* = 5.63, 95% CI [5.19,6.06], *t*(116) = -0.55, *p* = .58, *d* = 0.10, 95% CI [-0.76,0.43]).
+
+Interestingly however, the failure to replicate was not because the thought manipulation failed to induce a perception of economic inequality. It did work. There was a significant difference on the manipulation check between participants in the economic inequality (*M* = 4.48, 95% CI [4.33,4.64]) and height inequality condition (*M* = 2.41, 95% CI [2.15,2.67], *t*(116) = -13.80, *p* < .001, *d* = -2.56, 95% CI [-2.37,-1.78]).
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+One possibility for the failure to replicate could certainly be an insufficient sample size. Given the small effect size of the original paper, *d*~mean~ = 0.32, a sample size of 244 was required to achieve 80% power. The sample we collected was less than half of that. However, even with a sample of 118 participants, we observe that the effect size in this replication was three times smaller than the original study at *d* = 0.10, a difference that is difficult to attribute to a lack of sample size. I believe there is another likelier possibility for the failure to replicate - cultural difference. While the original study was conducted in Spain, this replication study was conducted on U.S. participants. Because of the strong belief in hard work and the American Dream, people in the U.S. may perceive inequality as a natural feature of society. Those who succeed must have worked hard and those who failed must have been lazy. Therefore, regardless of how high people perceive inequality in the U.S., they won't necessarily see it as a problem that needs fixing. Instead, what might predict intolerance to inequality could be a perception of corruption or financial fraud instead. 
+ 
